@@ -27,6 +27,8 @@ except (Exception, psycopg2.Error) as error :
 
 def add_user(user_data):
     if(connection):
+        cursor = connection.cursor()
+        # insert to user_data
         query_string = f"""
             INSERT INTO user_data (card_id, f_name, l_name, email, phone, created_on)
             VALUES ('{user_data['card_id']}',
@@ -35,15 +37,27 @@ def add_user(user_data):
                 '{user_data['email']}',
                 '{user_data['phone']}',
                 CURRENT_TIMESTAMP
+            )
+            RETURNING user_id;
+        """
+        # print(query_string)
+        cursor.execute(query_string)
+        print(f"{cursor.rowcount} rows affected.")
+
+        # insert to user_permission
+        user_id = cursor.fetchone()[0]
+        query_string = f"""
+            INSERT INTO user_permission (user_id, available, created_on)
+            VALUES ('{user_id}',
+                '{user_data['permission']}',
+                CURRENT_TIMESTAMP
             );
         """
-        print(query_string)
-        cursor = connection.cursor()
         cursor.execute(query_string)
         connection.commit()
+        print(f"{cursor.rowcount} rows affected.")
         cursor.close()
-        #print(data)
-        return f"{cursor.rowcount} rows affected."
+        return True
     return False
 
 """

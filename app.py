@@ -1,9 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-
-import sys
-import json
 import traceback
+
+import pom_chob_khun_lift as pckl
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -18,8 +17,7 @@ def add_user():
     try:
         if request.method == 'POST':
             data = request.get_json()
-            return jsonify({"status": "ok",
-                            "uid": data["uid"]})
+            return jsonify(pckl.add_user(data))
     except Exception as e: 
         print("Error:", e)
         traceback.print_exc()
