@@ -21,7 +21,18 @@ def add_user():
     except Exception as e: 
         print("Error:", e)
         traceback.print_exc()
-        return jsonify({"status": "error"})
+        return jsonify({"status": "server error"})
+
+@app.route('/checkpermission', methods = ['GET'])
+def check_permission():
+    try:
+        if request.method == 'GET':
+            data = request.get_json()
+            return jsonify(pckl.check_permission(data))
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return jsonify({"status": "server error"})
 
 if __name__ == "__main__":
     app.run(debug = False,host="0.0.0.0", port=5000)

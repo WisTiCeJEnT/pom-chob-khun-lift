@@ -60,6 +60,30 @@ def add_user(user_data):
         return True
     return False
 
+def check_permission_by_card(user_data):
+    if(connection):
+        cursor = connection.cursor()
+        # select available floor from user_data & user_permission
+        query_string = f"""
+            SELECT user_permission.available FROM user_data, user_permission
+            WHERE user_data.user_id = user_permission.user_id
+            AND user_data.card_id = '{user_data['card_id']}';
+        """
+        # print(query_string)
+        cursor.execute(query_string)
+        if(cursor.rowcount):
+            # card found
+            available = cursor.fetchone()[0]
+            print(available)
+            available_floor = [int(floor) for floor in bin(available)[2:]]
+        else:
+            # card not found
+            print('Card invalid !')
+            available_floor = [0, 0, 0, 0]
+        cursor.close()
+        return available_floor
+    return False
+    
 """
 finally:
     #closing database connection.
