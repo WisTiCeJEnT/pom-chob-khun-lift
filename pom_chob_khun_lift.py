@@ -37,4 +37,15 @@ def check_permission(raw_data):
             return {
                 'status': 'database error',
             }
-    
+
+def check_user_id(raw_data):
+    user_id, status = db.check_user_id(raw_data)
+    if(user_id):
+        return {
+            'status': status if status != None else "ok",
+            'user_id': user_id
+            }
+    else:
+        return {
+            'status': 'database error',
+        }

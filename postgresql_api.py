@@ -128,6 +128,28 @@ def check_permission_by_id(user_data):
         return (available_floor, status)
     return False
     
+def check_user_id(user_data):
+    if(connection):
+        status = None
+        cursor = connection.cursor()
+        query_string = f"""
+            SELECT user_id FROM user_data
+            WHERE card_id = %s
+            AND NOT user_data.is_deleted;
+        """
+        cursor.execute(query_string, (user_data['card_id'], ))
+        if(cursor.rowcount):
+            # Card found
+            query_result = cursor.fetchone()
+            user_id = query_result[0]
+        else:
+            # Card not found
+            user_id = -1
+            status = "Card not found"
+        cursor.close()
+        return (user_id, status)
+    return False
+    
 """
 finally:
     #closing database connection.
