@@ -48,10 +48,7 @@ def add_user(user_data):
         user_id = cursor.fetchone()[0]
         query_string = f"""
             INSERT INTO user_permission (user_id, available, created_on)
-            VALUES (%s,
-                %s,
-                NOW()
-            );
+            VALUES (%s, %s, NOW());
         """
         cursor.execute(query_string, (user_id, user_data['permission']))
         connection.commit()
@@ -71,6 +68,7 @@ def check_permission_by_card(user_data):
         """
         # print(query_string)
         cursor.execute(query_string, (user_data['card_id'], ))
+        event_id = -1
         if(cursor.rowcount):
             # card found
             user_id, available = cursor.fetchone()
@@ -82,18 +80,21 @@ def check_permission_by_card(user_data):
                 UPDATE user_data
                 SET last_active = NOW()
                 WHERE user_id = %s;
+
                 INSERT INTO user_activity (user_id, lift_no, created_on, arrival)
-                VALUES (%s, %s, NOW(), %s);
+                VALUES (%s, %s, NOW(), %s)
+                RETURNING id;
             """
             cursor.execute(query_string, (user_id, user_id, user_data['lift_no'], user_data['arrival']))
             connection.commit()
+            event_id = cursor.fetchone()[0]
             print(f"{cursor.rowcount} rows affected.")
         else:
             # card not found
             print('Card invalid !')
             available_floor = [0, 0, 0, 0]
         cursor.close()
-        return available_floor
+        return (available_floor, event_id)
     return False
 
 def check_permission_by_id(user_data):

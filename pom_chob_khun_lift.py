@@ -14,11 +14,12 @@ def add_user(raw_data):
 
 def check_permission(raw_data):
     if 'card_id' in raw_data:
-        available_floor = db.check_permission_by_card(raw_data)
+        available_floor, event_id = db.check_permission_by_card(raw_data)
         if(available_floor):
             return {
                 'status': 'ok',
-                'available_floor': available_floor
+                'available_floor': available_floor,
+                'event_id': event_id
             }
         else:
             return {
