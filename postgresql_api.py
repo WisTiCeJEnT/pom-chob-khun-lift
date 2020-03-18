@@ -149,6 +149,23 @@ def find_user_id(user_data):
         cursor.close()
         return (user_id, status)
     return False
+
+def remove_user(user_data):
+    if(connection):
+        status = None
+        cursor = connection.cursor()
+        query_string = f"""
+            UPDATE user_data
+            SET is_deleted = True
+            WHERE user_id = %s;
+        """
+        cursor.execute(query_string, (user_data['user_id'], ))
+        connection.commit()
+        cursor.close()
+        if(not cursor.rowcount):
+            status = "Card not found"
+        return status
+    return False
     
 """
 finally:

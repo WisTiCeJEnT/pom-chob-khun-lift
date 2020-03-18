@@ -45,5 +45,16 @@ def find_user_id():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
+@app.route('/removeuser', methods = ['DELETE'])
+def remove_user():
+    try:
+        if request.method == 'DELETE':
+            data = request.get_json()
+            return jsonify(pckl.remove_user(data))
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return jsonify({"status": "server error"})
+
 if __name__ == "__main__":
     app.run(debug = False,host="0.0.0.0", port=5000)

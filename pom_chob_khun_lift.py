@@ -49,3 +49,9 @@ def find_user_id(raw_data):
         return {
             'status': 'database error',
         }
+        
+def remove_user(raw_data):
+    status = db.remove_user(raw_data)
+    return {
+        'status': status if status != None else "ok",
+    }
