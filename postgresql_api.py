@@ -31,29 +31,29 @@ def add_user(user_data):
         # insert to user_data
         query_string = f"""
             INSERT INTO user_data (card_id, f_name, l_name, email, phone, created_on)
-            VALUES ('{user_data['card_id']}',
-                '{user_data['f_name']}',
-                '{user_data['l_name']}',
-                '{user_data['email']}',
-                '{user_data['phone']}',
-                CURRENT_TIMESTAMP
-            )
+            VALUES (%s, %s, %s, %s, %s, NOW())
             RETURNING user_id;
         """
         # print(query_string)
-        cursor.execute(query_string)
+        cursor.execute(query_string, (
+            user_data['card_id'],
+            user_data['f_name'],
+            user_data['l_name'],
+            user_data['email'],
+            user_data['phone']
+        ))
         print(f"{cursor.rowcount} rows affected.")
 
         # insert to user_permission
         user_id = cursor.fetchone()[0]
         query_string = f"""
             INSERT INTO user_permission (user_id, available, created_on)
-            VALUES ('{user_id}',
-                '{user_data['permission']}',
-                CURRENT_TIMESTAMP
+            VALUES (%s,
+                %s,
+                NOW()
             );
         """
-        cursor.execute(query_string)
+        cursor.execute(query_string, (user_id, user_data['permission']))
         connection.commit()
         print(f"{cursor.rowcount} rows affected.")
         cursor.close()
@@ -65,20 +65,56 @@ def check_permission_by_card(user_data):
         cursor = connection.cursor()
         # select available floor from user_data & user_permission
         query_string = f"""
-            SELECT user_permission.available FROM user_data, user_permission
+            SELECT user_data.user_id, user_permission.available FROM user_data, user_permission
             WHERE user_data.user_id = user_permission.user_id
-            AND user_data.card_id = '{user_data['card_id']}';
+            AND user_data.card_id = %s;
         """
         # print(query_string)
-        cursor.execute(query_string)
+        cursor.execute(query_string, (user_data['card_id'], ))
         if(cursor.rowcount):
             # card found
-            available = cursor.fetchone()[0]
-            print(available)
+            user_id, available = cursor.fetchone()
+            #print(available)
             available_floor = [int(floor) for floor in bin(available)[2:]]
+
+            # update activity&active date
+            query_string = f"""
+                UPDATE user_data
+                SET last_active = NOW()
+                WHERE user_id = %s;
+                INSERT INTO user_activity (user_id, lift_no, created_on, arrival)
+                VALUES (%s, %s, NOW(), %s);
+            """
+            cursor.execute(query_string, (user_id, user_id, user_data['lift_no'], user_data['arrival']))
+            connection.commit()
+            print(f"{cursor.rowcount} rows affected.")
         else:
             # card not found
             print('Card invalid !')
+            available_floor = [0, 0, 0, 0]
+        cursor.close()
+        return available_floor
+    return False
+
+def check_permission_by_id(user_data):
+    if(connection):
+        cursor = connection.cursor()
+        # select available floor from user_data & user_permission
+        query_string = f"""
+            SELECT user_permission.available FROM user_permission
+            WHERE user_permission.user_id = %s;
+        """
+        # print(query_string)
+        cursor.execute(query_string, (user_data['user_id'], ))
+        if(cursor.rowcount):
+            # User found
+            query_result = cursor.fetchone()
+            available = query_result[0]
+            #print(available)
+            available_floor = [int(floor) for floor in bin(available)[2:]]
+        else:
+            # User not found
+            print('User not found !')
             available_floor = [0, 0, 0, 0]
         cursor.close()
         return available_floor

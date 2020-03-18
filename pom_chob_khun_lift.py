@@ -24,15 +24,15 @@ def check_permission(raw_data):
             return {
                 'status': 'database error',
             }
-    """
     elif 'user_id' in raw_data:
-        if(db.check_permission_by_id(raw_data)):
+        available_floor = db.check_permission_by_id(raw_data)
+        if(available_floor):
             return {
                 'status': 'ok',
+                'available_floor': available_floor
             }
         else:
             return {
                 'status': 'database error',
             }
-    """
     
