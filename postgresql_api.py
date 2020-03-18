@@ -27,6 +27,7 @@ except (Exception, psycopg2.Error) as error :
 
 def add_user(user_data):
     if(connection):
+        status = None
         cursor = connection.cursor()
         # insert to user_data
         query_string = f"""
@@ -54,11 +55,12 @@ def add_user(user_data):
         connection.commit()
         print(f"{cursor.rowcount} rows affected.")
         cursor.close()
-        return True
-    return False
+        return (True, status)
+    return (False, status)
 
 def check_permission_by_card(user_data):
     if(connection):
+        status = None
         cursor = connection.cursor()
         # select available floor from user_data & user_permission
         query_string = f"""
@@ -93,12 +95,14 @@ def check_permission_by_card(user_data):
             # card not found
             print('Card invalid !')
             available_floor = [0, 0, 0, 0]
+            status = "Card not found"
         cursor.close()
-        return (available_floor, event_id)
+        return (available_floor, event_id, status)
     return False
 
 def check_permission_by_id(user_data):
     if(connection):
+        status = None
         cursor = connection.cursor()
         # select available floor from user_data & user_permission
         query_string = f"""
@@ -117,8 +121,9 @@ def check_permission_by_id(user_data):
             # User not found
             print('User not found !')
             available_floor = [0, 0, 0, 0]
+            status = "User not found"
         cursor.close()
-        return available_floor
+        return (available_floor, status)
     return False
     
 """
