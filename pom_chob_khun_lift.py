@@ -38,8 +38,8 @@ def check_permission(raw_data):
                 'status': 'database error',
             }
 
-def check_user_id(raw_data):
-    user_id, status = db.check_user_id(raw_data)
+def find_user_id(raw_data):
+    user_id, status = db.find_user_id(raw_data)
     if(user_id):
         return {
             'status': status if status != None else "ok",

@@ -34,12 +34,12 @@ def check_permission():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
-@app.route('/checkuserid', methods = ['GET'])
-def check_user_id():
+@app.route('/finduserid', methods = ['GET'])
+def find_user_id():
     try:
         if request.method == 'GET':
             data = request.get_json()
-            return jsonify(pckl.check_user_id(data))
+            return jsonify(pckl.find_user_id(data))
     except Exception as e: 
         print("Error:", e)
         traceback.print_exc()

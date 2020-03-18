@@ -128,7 +128,7 @@ def check_permission_by_id(user_data):
         return (available_floor, status)
     return False
     
-def check_user_id(user_data):
+def find_user_id(user_data):
     if(connection):
         status = None
         cursor = connection.cursor()
