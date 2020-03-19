@@ -81,7 +81,7 @@ def check_permission_by_card(user_data):
             # update activity&active date
             query_string = f"""
                 UPDATE user_data
-                SET last_active = NOW()
+                SET last_active = NOW(), status = 'CHECKED IN'
                 WHERE user_id = %s;
 
                 INSERT INTO user_activity (user_id, lift_no, created_on, arrival)
@@ -150,6 +150,30 @@ def find_user_id(user_data):
         return (user_id, status)
     return False
 
+def update_user_activity(event_id, target):
+    if(connection):
+        cursor = connection.cursor()
+        query_string = f"""
+            UPDATE user_activity
+            SET departure = %s
+            WHERE id = %s
+            RETURNING user_id;
+        """
+        cursor.execute(query_string, (target, event_id, ))
+        if(not cursor.rowcount):
+            return "event not found"
+        user_id = cursor.fetchone()[0] 
+        query_string = f"""
+            UPDATE user_data
+            SET last_active = NOW(), last_stop = %s, status = NULL
+            WHERE user_id = %s;
+        """
+        cursor.execute(query_string, (target, user_id, ))
+        connection.commit()
+        cursor.close()
+        return None
+    return 'database error'
+
 def remove_user(user_data):
     if(connection):
         status = None
@@ -163,9 +187,9 @@ def remove_user(user_data):
         connection.commit()
         cursor.close()
         if(not cursor.rowcount):
-            status = "Card not found"
+            status = "card not found"
         return status
-    return False
+    return 'database error'
     
 """
 finally:

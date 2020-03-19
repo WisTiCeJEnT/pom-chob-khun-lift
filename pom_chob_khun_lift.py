@@ -55,3 +55,12 @@ def remove_user(raw_data):
     return {
         'status': status if status != None else "ok",
     }
+
+def update_user_activity(raw_data):
+    status = db.update_user_activity(
+        event_id = raw_data['event_id'], 
+        target = raw_data['target']
+        )
+    return {
+        'status': status if status != None else "ok",
+    }

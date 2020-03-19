@@ -56,5 +56,16 @@ def remove_user():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
+@app.route('/useractivity', methods = ['PATCH'])
+def update_user_activity():
+    try:
+        if request.method == 'PATCH':
+            data = request.get_json()
+            return jsonify(pckl.update_user_activity(data))
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return jsonify({"status": "server error"})
+
 if __name__ == "__main__":
     app.run(debug = False,host="0.0.0.0", port=5000)
