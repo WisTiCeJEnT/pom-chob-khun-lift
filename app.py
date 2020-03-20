@@ -67,5 +67,19 @@ def update_user_activity():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
+@app.route('/liftactivity', methods = ['POST', 'GET'])
+def lift_activity():
+    try:
+        if request.method == 'POST':
+            data = request.get_json()
+            return jsonify(pckl.update_lift_activity(data))
+        elif request.method == 'GET':
+            data = request.get_json()
+            return jsonify({"status": "comming soon"})
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return jsonify({"status": "server error"})
+
 if __name__ == "__main__":
     app.run(debug = False,host="0.0.0.0", port=5000)

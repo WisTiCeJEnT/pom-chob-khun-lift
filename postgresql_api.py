@@ -191,6 +191,19 @@ def remove_user(user_data):
         return status
     return 'database error'
     
+def update_lift_activity(lift_no, floor, event_no):
+    if(connection):
+        cursor = connection.cursor()
+        query_string = f"""
+            INSERT INTO lift_activity (lift_no, created_on, floor, event_no)
+            VALUES (%s, NOW(), %s, %s);
+        """
+        cursor.execute(query_string, (lift_no, floor, event_no, ))
+        connection.commit()
+        cursor.close()
+        return None
+    return 'database error'
+
 """
 finally:
     #closing database connection.

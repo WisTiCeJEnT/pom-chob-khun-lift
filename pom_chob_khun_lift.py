@@ -64,3 +64,13 @@ def update_user_activity(raw_data):
     return {
         'status': status if status != None else "ok",
     }
+
+def update_lift_activity(raw_data):
+    status = db.update_lift_activity(
+        lift_no = raw_data['lift_no'], 
+        floor = raw_data['floor'], 
+        event_no = raw_data['event']
+        )
+    return {
+        'status': status if status != None else "ok",
+    }
