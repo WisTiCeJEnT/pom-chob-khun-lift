@@ -67,7 +67,7 @@ def check_permission_by_card(user_data):
             SELECT user_data.user_id, user_permission.available FROM user_data, user_permission
             WHERE user_data.user_id = user_permission.user_id
             AND user_data.card_id = %s
-            AND user_data.is_deleted = False;
+            AND NOT user_data.is_deleted;
         """
         # print(query_string)
         cursor.execute(query_string, (user_data['card_id'], ))
@@ -107,9 +107,10 @@ def check_permission_by_id(user_data):
         cursor = connection.cursor()
         # select available floor from user_data & user_permission
         query_string = f"""
-            SELECT user_permission.available FROM user_permission
-            WHERE user_permission.user_id = %s
-            AND user_data.is_deleted = False;
+            SELECT user_permission.available FROM user_data, user_permission
+            WHERE user_data.user_id = user_permission.user_id
+            AND user_data.user_id = %s
+            AND NOT user_data.is_deleted;
         """
         # print(query_string)
         cursor.execute(query_string, (user_data['user_id'], ))
