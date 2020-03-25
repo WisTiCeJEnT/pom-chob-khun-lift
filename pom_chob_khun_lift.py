@@ -14,7 +14,7 @@ def add_user(raw_data):
         }
 
 def check_permission(raw_data):
-    if 'card_id' in raw_data:
+    if raw_data['card_id']:
         available_floor, event_id, status = db.check_permission_by_card(raw_data)
         if(available_floor):
             return {
@@ -26,7 +26,7 @@ def check_permission(raw_data):
             return {
                 'status': 'database error',
             }
-    elif 'user_id' in raw_data:
+    elif raw_data['card_id']:
         available_floor, status = db.check_permission_by_id(raw_data)
         if(available_floor):
             return {

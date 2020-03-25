@@ -27,7 +27,12 @@ def add_user():
 def check_permission():
     try:
         if request.method == 'GET':
-            data = request.get_json()
+            #data = request.get_json()
+            data = {}
+            data['card_id'] = request.args.get('card_id')
+            data['user_id'] = request.args.get('user_id')
+            data['arrival'] = request.args.get('arrival')
+            data['lift_no'] = request.args.get('lift_no')
             return jsonify(pckl.check_permission(data))
     except Exception as e: 
         print("Error:", e)
