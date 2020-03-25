@@ -32,16 +32,13 @@ default.size.stdout \
 OBJDUMP_LIST += \
 oled.list \
 
-OBJCOPY_BIN += \
-oled.bin \
-
 
 # All Target
 all: oled.elf secondary-outputs
 
 # Tool invocations
-oled.elf: $(OBJS) $(USER_OBJS) E:\Ken\stm32\oled\STM32L432KCUX_FLASH.ld
-	arm-none-eabi-gcc -o "oled.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\Ken\stm32\oled\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="oled.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+oled.elf: $(OBJS) $(USER_OBJS) /Users/hurriken/Desktop/pom-chob-khun-lift/oled/STM32L432KCUX_FLASH.ld
+	arm-none-eabi-gcc -o "oled.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/hurriken/Desktop/pom-chob-khun-lift/oled/STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="oled.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -55,17 +52,12 @@ oled.list: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-oled.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "oled.bin"
-	@echo 'Finished building: $@'
-	@echo ' '
-
 # Other Targets
 clean:
 	-$(RM) *
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
 
 .PHONY: all clean dependents
 .SECONDARY:

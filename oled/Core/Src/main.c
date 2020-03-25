@@ -115,7 +115,7 @@ int main(void)
 	num = (x%4) + 1;
 	itoa(num, snum, 10);
 	ssd1306_SetCursor(0, 0);
-	ssd1306_WriteString(snum, Font_11x18, White);
+	ssd1306_WriteString(snum, Font_16x26, White);
 	ssd1306_UpdateScreen();
 	x++;
 	HAL_Delay(1000);
