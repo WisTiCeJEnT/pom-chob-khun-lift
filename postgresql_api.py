@@ -9,6 +9,7 @@ try:
                                   database = os.environ["PG_DATABASE"])
     """
     connection = psycopg2.connect(os.environ["DATABASE_URL"])
+    connection.set_session(autocommit=True)
     cur = connection.cursor()
     cur.execute("""
     SELECT table_name
@@ -52,7 +53,6 @@ def add_user(user_data):
             VALUES (%s, %s, NOW());
         """
         cursor.execute(query_string, (user_id, user_data['permission']))
-        connection.commit()
         print(f"{cursor.rowcount} rows affected.")
         cursor.close()
         return (True, status)
@@ -89,7 +89,6 @@ def check_permission_by_card(user_data):
                 RETURNING id;
             """
             cursor.execute(query_string, (user_id, user_id, user_data['lift_no'], user_data['arrival']))
-            connection.commit()
             event_id = cursor.fetchone()[0]
             print(f"{cursor.rowcount} rows affected.")
         else:
@@ -170,7 +169,6 @@ def update_user_activity(event_id, target):
             WHERE user_id = %s;
         """
         cursor.execute(query_string, (target, user_id, ))
-        connection.commit()
         cursor.close()
         return None
     return 'database error'
@@ -185,7 +183,6 @@ def remove_user(user_data):
             WHERE user_id = %s;
         """
         cursor.execute(query_string, (user_data['user_id'], ))
-        connection.commit()
         cursor.close()
         if(not cursor.rowcount):
             status = "card not found"
@@ -200,7 +197,6 @@ def update_lift_activity(lift_no, floor, event_no):
             VALUES (%s, NOW(), %s, %s);
         """
         cursor.execute(query_string, (lift_no, floor, event_no, ))
-        connection.commit()
         cursor.close()
         return None
     return 'database error'
