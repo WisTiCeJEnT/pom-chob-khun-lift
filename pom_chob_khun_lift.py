@@ -62,6 +62,10 @@ def update_user_activity(raw_data):
         event_id = raw_data['event_id'], 
         target = raw_data['target']
         )
+    scan.add_queue(
+        lift_no = raw_data['lift_no'],
+        dest = raw_data['target']
+        )
     return {
         'status': status if status != None else "ok",
     }
@@ -99,5 +103,25 @@ def post_lift_control(raw_data):
     status = None
     scan.lift[lift_no]['status'] = 'CLOSE'
     return {
+        'status': status if status != None else "ok",
+    }
+
+def lift_status(raw_data):
+    status = None
+    lift_1_position = raw_data['lift_1_position']
+    lift_2_position = raw_data['lift_2_position']
+    lift_1_move = scan.update_lift_status(lift_no=1, floor=lift_1_position)
+    lift_2_move = scan.update_lift_status(lift_no=2, floor=lift_2_position)
+    return {
+        'lift_1_move': lift_1_move,
+        'lift_2_move': lift_2_move,
+        'status': status if status != None else "ok",
+    }
+
+def get_lift_status():
+    status = None
+    return {
+        'lift_1': scan.lift[1],
+        'lift_2': scan.lift[2],
         'status': status if status != None else "ok",
     }

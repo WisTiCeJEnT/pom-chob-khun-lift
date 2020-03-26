@@ -36,8 +36,55 @@ def dist(lift_no, floor, going):
         ans += 1
     return ans
 
-def add_queue(lift_no, floor):
-    None
+def add_queue(lift_no, dest): #Review again soon
+    lift[lift_no]['queue'].append(dest)
+    """
+    if lift[lift_no]['floor'] < dest:
+        if lift[lift_no]['going'] == 'UP':
+            for i in range(len(lift[lift_no]['queue'])):
+                if lift[lift_no]['queue'][i] > dest:
+                    lift[lift_no]['queue'].insert(i, dest)
+                    break
+        elif lift[lift_no]['going'] == 'DOWN':
+            for i in range(len(lift[lift_no]['queue'])):
+                if lift[lift_no]['queue'][len(lift[lift_no]['queue'])-i-1] < dest:
+                    lift[lift_no]['queue'].insert(i+1, dest)
+                    break
+        else:
+            lift[lift_no]['queue'].append(dest)
+    elif lift[lift_no]['floor'] > dest:
+        if lift[lift_no]['going'] == 'UP':
+            for i in range(len(lift[lift_no]['queue'])):
+                if lift[lift_no]['queue'][i] > dest:
+                    lift[lift_no]['queue'].insert(i, dest)
+                    break
+        elif lift[lift_no]['going'] == 'DOWN':
+            for i in range(len(lift[lift_no]['queue'])):
+                if lift[lift_no]['queue'][len(lift[lift_no]['queue'])-i-1] < dest:
+                    lift[lift_no]['queue'].insert(i+1, dest)
+                    break
+        else:
+            lift[lift_no]['queue'].append(dest)
+    """
+
+def update_lift_status(lift_no, floor):
+    print("update_lift_status", lift_no)
+    lift[lift_no]['floor'] = floor
+    queue = lift[lift_no]['queue']
+    if queue:
+        if queue[0] == floor:
+            pop_lift(lift_no)
+            lift[lift_no]['status'] = 'OPEN'
+        else:
+            lift[lift_no]['status'] = 'MOVING'
+            if queue[0] < floor:
+                return -1 #going down
+            else:
+                return 1 #going up
+    else:
+        lift[lift_no]['status'] = None
+        lift[lift_no]['going'] = None
+        return 0
 
 def new_user(floor, going):
     l1_dist = dist(lift_no=1, floor=floor, going=going)
