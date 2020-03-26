@@ -76,7 +76,7 @@ def check_permission_by_card(user_data):
             # card found
             user_id, available = cursor.fetchone()
             #print(available)
-            available_floor = [int(floor) for floor in bin(available)[2:]]
+            available_floor = ([0,0,0,0]+[int(floor) for floor in bin(available)[2:]])[-4:]
 
             # update activity&active date
             query_string = f"""
@@ -118,7 +118,7 @@ def check_permission_by_id(user_data):
             query_result = cursor.fetchone()
             available = query_result[0]
             #print(available)
-            available_floor = [int(floor) for floor in bin(available)[2:]]
+            available_floor = ([0,0,0,0]+[int(floor) for floor in bin(available)[2:]])[-4:]
         else:
             # User not found
             print('User not found !')
