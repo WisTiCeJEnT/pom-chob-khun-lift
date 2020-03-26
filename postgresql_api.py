@@ -207,7 +207,8 @@ def get_user_list(first, last):
         query_string = f"""
             SELECT user_id, card_id, f_name, last_active, last_stop FROM user_data
             WHERE user_id >= %s and user_id <= %s
-            AND NOT user_data.is_deleted;
+            AND NOT user_data.is_deleted
+            ORDER BY user_id;
             """
         cursor.execute(query_string, (first, last, ))
         query_result = cursor.fetchall()

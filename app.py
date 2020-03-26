@@ -14,7 +14,9 @@ def root():
 
 @app.route('/bof/user_list')
 def bof_user_list():
-    user_list = pckl.db.get_user_list(30, 100)
+    first = try_get(request.args.get('first'), 30)
+    last = try_get(request.args.get('last'), 100)
+    user_list = pckl.db.get_user_list(first, last)
     return render_template('user_list.html', user_list=user_list)
 
 @app.route('/adduser', methods = ['POST'])
@@ -93,5 +95,9 @@ def lift_activity():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
+def try_get(inp, default):
+    return inp if inp != None else default
+
+
 if __name__ == "__main__":
-    app.run(debug = True, host="0.0.0.0", port=5000)
+    app.run(debug = False, host="0.0.0.0", port=5000)
