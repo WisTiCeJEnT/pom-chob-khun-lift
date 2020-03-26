@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import traceback
 
@@ -11,6 +11,11 @@ CORS(app)
 @app.route('/')
 def root():
     return "Working"
+
+@app.route('/bof/user_list')
+def bof_user_list():
+    user_list = pckl.db.get_user_list(30, 100)
+    return render_template('user_list.html', user_list=user_list)
 
 @app.route('/adduser', methods = ['POST'])
 def add_user():
@@ -89,4 +94,4 @@ def lift_activity():
         return jsonify({"status": "server error"})
 
 if __name__ == "__main__":
-    app.run(debug = False,host="0.0.0.0", port=5000)
+    app.run(debug = True, host="0.0.0.0", port=5000)
