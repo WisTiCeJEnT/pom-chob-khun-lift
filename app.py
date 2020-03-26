@@ -95,9 +95,23 @@ def lift_activity():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
+@app.route('/liftcontrol', methods = ['POST', 'GET'])
+def lift_control():
+    try:
+        if request.method == 'POST':
+            data = request.get_json()
+            return jsonify(pckl.post_lift_control(data))
+        elif request.method == 'GET':
+            data = {}
+            data['lift_no'] = int(request.args.get('lift_no'))
+            return jsonify(pckl.get_lift_control(data))
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return jsonify({"status": "server error"})
+
 def try_get(inp, default):
     return inp if inp != None else default
-
 
 if __name__ == "__main__":
     app.run(debug = False, host="0.0.0.0", port=5000)

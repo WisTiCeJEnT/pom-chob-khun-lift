@@ -1,4 +1,5 @@
 import postgresql_api as db
+import scan
 
 def add_user(raw_data):
     user_data = raw_data
@@ -71,6 +72,32 @@ def update_lift_activity(raw_data):
         floor = raw_data['floor'], 
         event_no = raw_data['event']
         )
+    return {
+        'status': status if status != None else "ok",
+    }
+
+def get_lift_control(raw_data):
+    lift_no = raw_data['lift_no']
+    door_open = None
+    status = None
+    oled = None
+    if scan.lift[lift_no]['status'] == 'OPEN':
+        door_open = 1
+        oled = 'OPEN'
+        scan.lift[lift_no]['status'] = 'WAITING'
+    else:
+        door_open = 0
+        oled = str(scan.lift[lift_no]['floor'])
+    return {
+        'door_open': door_open,
+        'oled': oled,
+        'status': status if status != None else "ok",
+    }
+
+def post_lift_control(raw_data):
+    lift_no = raw_data['lift_no']
+    status = None
+    scan.lift[lift_no]['status'] = 'CLOSE'
     return {
         'status': status if status != None else "ok",
     }
