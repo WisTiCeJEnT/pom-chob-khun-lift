@@ -43,7 +43,9 @@ def check_permission():
 def find_user_id():
     try:
         if request.method == 'GET':
-            data = request.get_json()
+            #data = request.get_json()
+            data = {}
+            data['card_id'] = request.args.get('card_id')
             return jsonify(pckl.find_user_id(data))
     except Exception as e: 
         print("Error:", e)
