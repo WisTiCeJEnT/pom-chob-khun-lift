@@ -6,7 +6,7 @@ int distance;
 void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  Serial.begin(9600);communication
+  Serial.begin(9600);
 }
 
 void loop() {
