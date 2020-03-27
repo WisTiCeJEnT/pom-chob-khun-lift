@@ -35,9 +35,8 @@ def bof_user_list():
 
 @app.route('/bof/user_activity_list')
 def bof_user_activity_list():
-    first = try_get(request.args.get('first'), 30)
-    last = try_get(request.args.get('last'), 100)
-    user_list = pckl.db.get_user_activity_list(first, last)
+    show = try_get(request.args.get('show'), 30)
+    user_list = pckl.db.get_user_activity_list(show)
     return render_template('user_activity.html', user_list=user_list)
 
 @app.route('/adduser', methods = ['POST'])
@@ -144,12 +143,10 @@ def lift_status():
         traceback.print_exc()
         return jsonify({"status": "server error"})
 
-@app.route('/liftcall', methods = ['GET'])
+@app.route('/liftcall', methods = ['POST'])
 def lift_call():
     try:
-        data = {}
-        data['floor'] = int(request.args.get('floor'))
-        data['going'] = request.args.get('going')
+        data = request.get_json()
         return jsonify(pckl.lift_call(data))
     except Exception as e: 
         print("Error:", e)

@@ -135,7 +135,7 @@ def get_lift_status():
 def lift_call(raw_data):
     status = None
     scan.new_user(
-        floor=raw_data['floor'],
+        floor=int(raw_data['floor']),
         going=raw_data['going']
     )
     scan.floor_light[str(f"{raw_data['floor']}_{raw_data['going']}")] = 1
