@@ -17,7 +17,8 @@ def bof():
     page_list = [
         ['user list', '/bof/user_list'],
         ['user activity list', '/bof/user_activity_list'],
-        ['raw lift state', '/liftstatus']
+        ['raw lift state', '/liftstatus'],
+        ['OLED emulator', '/bof/oled_terminal']
     ]
     return render_template('bof.html', page_list=page_list)
 """
@@ -26,6 +27,13 @@ def bof_lift_status():
     lift = pckl.get_lift_status()
     return render_template('lift_status.html', lift=lift)
 """
+
+@app.route('/bof/oled_terminal')
+def bof_oled_terminal():
+    data = {}
+    data = pckl.scan.lift
+    return render_template('oled_terminal.html', data=data)
+
 @app.route('/bof/user_list')
 def bof_user_list():
     first = try_get(request.args.get('first'), 30)
