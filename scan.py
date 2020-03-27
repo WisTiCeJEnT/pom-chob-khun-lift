@@ -82,13 +82,17 @@ def update_lift_status(lift_no, floor):
         if queue[0] == floor:
             pop_lift(lift_no)
             lift[lift_no]['status'] = 'OPEN'
+            lift[lift_no]['going'] = None
         else:
             lift[lift_no]['status'] = 'MOVING'
             if queue[0] < floor:
+                lift[lift_no]['going'] = 'DOWN'
                 return -1 #going down
             elif queue[0] > floor:
+                lift[lift_no]['going'] = 'UP'
                 return 1 #going up
             else:
+                lift[lift_no]['going'] = None
                 return 0 #stop
     else:
         lift[lift_no]['status'] = None
