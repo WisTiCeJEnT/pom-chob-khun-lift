@@ -101,7 +101,7 @@ def get_lift_control(raw_data):
 def post_lift_control(raw_data):
     lift_no = raw_data['lift_no']
     status = None
-    if scan.lift[lift_no]['status'] == 'OPEN':
+    if scan.lift[lift_no]['status'] == 'WAITING':
         scan.lift[lift_no]['status'] = 'CLOSE'
     return {
         'status': status if status != None else "ok",
