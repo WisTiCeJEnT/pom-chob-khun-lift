@@ -128,6 +128,7 @@ def get_lift_status():
     return {
         'lift_1': scan.lift[1],
         'lift_2': scan.lift[2],
+        'floor_light': scan.floor_light,
         'status': status if status != None else "ok",
     }
 
@@ -137,6 +138,7 @@ def lift_call(raw_data):
         floor=raw_data['floor'],
         going=raw_data['going']
     )
+    scan.floor_light[str(f"{raw_data['floor']}_{raw_data['going']}")] = 1
     return {
         'status': status if status != None else "ok",
     }

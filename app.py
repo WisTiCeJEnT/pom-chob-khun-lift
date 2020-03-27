@@ -20,8 +20,12 @@ def bof():
         ['raw lift state', '/liftstatus']
     ]
     return render_template('bof.html', page_list=page_list)
-
-
+"""
+@app.route('/bof/lift_status')
+def bof_lift_status():
+    lift = pckl.get_lift_status()
+    return render_template('lift_status.html', lift=lift)
+"""
 @app.route('/bof/user_list')
 def bof_user_list():
     first = try_get(request.args.get('first'), 30)

@@ -10,6 +10,15 @@ lift[2] = {
     'going': None,
     'floor': 1}
 
+floor_light = {
+    '4_DOWN': 0,
+    '3_UP': 0,
+    '3_DOWN': 0,
+    '2_UP': 0,
+    '2_DOWN': 0,
+    '1_UP': 0
+}
+
 def pop_lift(lift_no):
     if lift[lift_no]:
         lift[lift_no]['queue'] = lift[lift_no]['queue'][1:]
@@ -77,6 +86,9 @@ def update_lift_status(lift_no, floor):
             return 0 #stop
     print("update_lift_status", lift_no)
     lift[lift_no]['floor'] = floor
+    # fast dev
+    floor_light[str(f"{lift[lift_no]['floor']}_UP")] = 0
+    floor_light[str(f"{lift[lift_no]['floor']}_DOWN")] = 0
     queue = lift[lift_no]['queue']
     if queue:
         if queue[0] == floor:
