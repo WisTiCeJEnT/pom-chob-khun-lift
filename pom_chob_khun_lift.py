@@ -114,7 +114,7 @@ def lift_status(raw_data):
     if 'lift_1_position' in raw_data:
         lift_1_position = raw_data['lift_1_position']
     if 'lift_2_position' in raw_data:
-        lift_1_position = raw_data['lift_2_position']
+        lift_2_position = raw_data['lift_2_position']
     lift_1_move = scan.update_lift_status(lift_no=1, floor=lift_1_position)
     lift_2_move = scan.update_lift_status(lift_no=2, floor=lift_2_position)
     return {
