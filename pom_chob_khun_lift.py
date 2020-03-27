@@ -130,3 +130,13 @@ def get_lift_status():
         'lift_2': scan.lift[2],
         'status': status if status != None else "ok",
     }
+
+def lift_call(raw_data):
+    status = None
+    scan.new_user(
+        floor=raw_data['floor'],
+        going=raw_data['going']
+    )
+    return {
+        'status': status if status != None else "ok",
+    }

@@ -139,19 +139,19 @@ def lift_status():
         print("Error:", e)
         traceback.print_exc()
         return jsonify({"status": "server error"})
-"""
+
 @app.route('/liftcall', methods = ['GET'])
 def lift_call():
     try:
         data = {}
         data['floor'] = int(request.args.get('floor'))
-        data['going'] = int(request.args.get('going'))
+        data['going'] = request.args.get('going')
         return jsonify(pckl.lift_call(data))
     except Exception as e: 
         print("Error:", e)
         traceback.print_exc()
         return jsonify({"status": "server error"})
-"""
+
 def try_get(inp, default):
     return inp if inp != None else default
 
