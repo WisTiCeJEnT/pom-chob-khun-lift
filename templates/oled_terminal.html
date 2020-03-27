@@ -9,14 +9,14 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <meta http-equiv="refresh" content="5" />
+    <meta http-equiv="refresh" content="1" />
 
     <title>PCKL Data</title>
     <style>
       body {
         font-family: Arial;
         color: white;
-        font-size: 60px;
+        font-size: 100px;
       }
       
       .split {
@@ -57,15 +57,20 @@
     <div class="split left">
       <div class="centered">
         {% if data[1]['status'] == "MOVING" and data[1]['going'] == "UP" %}
-        <p>{{data[1]['floor']}} ^</p>
+        <p>{{data[1]['floor']}}</p>
+        <h2>GOING UP</h2>
         {% elif data[1]['status'] == "MOVING" and data[1]['going'] == "DOWN" %}
-        <p>{{data[1]['floor']}} v</p>
+        <p>{{data[1]['floor']}}</p>
+        <h2>GOING DOWN</h2>
         {% elif data[1]['status'] == "OPEN" %}
-        <p>{{"OPENING"}}</p>
+        <p>{{data[1]['floor']}}</p>
+        <h2>{{"OPENING"}}</h2>
         {% elif data[1]['status'] == "CLOSE" %}
-        <p>{{"CLOSING"}}</p>
+        <p>{{data[1]['floor']}}</p>
+        <h2>{{"CLOSING"}}</h2>
         {% else %}
         <p>{{data[1]['floor']}}</p>
+        <h2>Stand by</h2>
         {% endif %}
       </div>
     </div>
@@ -73,15 +78,20 @@
     <div class="split right">
       <div class="centered">
         {% if data[2]['status'] == "MOVING" and data[2]['going'] == "UP" %}
-        <p>{{data[2]['floor']}} ^</p>
+        <p>{{data[2]['floor']}}</p>
+        <h2>GOING UP</h2>
         {% elif data[2]['status'] == "MOVING" and data[2]['going'] == "DOWN" %}
-        <p>{{data[2]['floor']}} v</p>
+        <p>{{data[2]['floor']}}</p>
+        <h2>GOING DOWN</h2>
         {% elif data[2]['status'] == "OPEN" %}
-        <p>{{"OPENING"}}</p>
+        <p>{{data[2]['floor']}}</p>
+        <h2>{{"OPENING"}}</h2>
         {% elif data[2]['status'] == "CLOSE" %}
-        <p>{{"CLOSING"}}</p>
+        <p>{{data[2]['floor']}}</p>
+        <h2>{{"CLOSING"}}</h2>
         {% else %}
         <p>{{data[2]['floor']}}</p>
+        <h2>Stand by</h2>
         {% endif %}
       </div>
     </div>
