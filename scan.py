@@ -1,7 +1,7 @@
 lift = [None, None, None]
 lift[1] = {
     'queue': [],
-    'status': 'OPEN',
+    'status': None,
     'going': None,
     'floor': 1}
 lift[2] = {

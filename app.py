@@ -15,8 +15,9 @@ def root():
 @app.route('/bof/')
 def bof():
     page_list = [
-        ['user list', 'user_list'],
-        ['user activity list', 'user_activity_list']
+        ['user list', '/bof/user_list'],
+        ['user activity list', '/bof/user_activity_list'],
+        ['raw lift state', '/liftstatus']
     ]
     return render_template('bof.html', page_list=page_list)
 
