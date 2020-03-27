@@ -12,6 +12,15 @@ CORS(app)
 def root():
     return "Working"
 
+@app.route('/bof/')
+def bof():
+    page_list = [
+        ['user list', 'user_list'],
+        ['user activity list', 'user_activity_list']
+    ]
+    return render_template('bof.html', page_list=page_list)
+
+
 @app.route('/bof/user_list')
 def bof_user_list():
     first = try_get(request.args.get('first'), 30)
