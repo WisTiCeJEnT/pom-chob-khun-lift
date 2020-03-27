@@ -120,7 +120,13 @@ def lift_status(raw_data):
     return {
         'lift_1_move': lift_1_move,
         'lift_2_move': lift_2_move,
-        'status': status if status != None else "ok",
+        '1_UP': scan.floor_light['1_UP'],
+        '2_DOWN': scan.floor_light['2_DOWN'],
+        '2_UP': scan.floor_light['2_UP'],
+        '3_DOWN': scan.floor_light['3_DOWN'],
+        '3_UP': scan.floor_light['3_UP'],
+        '4_DOWN': scan.floor_light['4_DOWN'],
+        'status': status if status != None else "ok"
     }
 
 def get_lift_status():
