@@ -19,6 +19,13 @@ def bof_user_list():
     user_list = pckl.db.get_user_list(first, last)
     return render_template('user_list.html', user_list=user_list)
 
+@app.route('/bof/user_activity_list')
+def bof_user_activity_list():
+    first = try_get(request.args.get('first'), 30)
+    last = try_get(request.args.get('last'), 100)
+    user_list = pckl.db.get_user_activity_list(first, last)
+    return render_template('user_activity.html', user_list=user_list)
+
 @app.route('/adduser', methods = ['POST'])
 def add_user():
     try:

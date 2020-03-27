@@ -14,25 +14,29 @@
     <title>PCKL Data</title>
   </head>
   <body>
-    <h2>User list</h2>
+    <h2>User activity list</h2>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
           <th scope="col">user id</th>
           <th scope="col">first name</th>
-          <th scope="col">card id</th>
-          <th scope="col">last active</th>
-          <th scope="col">last floor</th>
+          <th scope="col">lift no.</th>
+          <th scope="col">date/time</th>
+          <th scope="col">arrival</th>
+          <th scope="col">departure</th>
+          <th scope="col">status</th>
         </tr>
       </thead>
       <tbody>
         {% for user in user_list %}
         <tr>
           <th scope="row">{{user[0]}}</th>
-          <td>{{user[2]}}</td>
           <td>{{user[1]}}</td>
+          <td>{{user[2]}}</td>
           <td>{{user[3]}}</td>
           <td>{{user[4]}}</td>
+          <td>{{user[5]}}</td>
+          <td>{{user[6]}}</td>
         </tr>
         {% endfor %}
       </tbody>
