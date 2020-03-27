@@ -69,6 +69,13 @@ def add_queue(lift_no, dest): #Review again soon
 
 def update_lift_status(lift_no, floor):
     print("update_lift_status", lift_no)
+    if floor == None:
+        if lift[lift_no]['going'] == 'DOWN':
+            return -1 #going down
+        elif lift[lift_no]['going'] == 'UP':
+            return 1 #going up
+        else:
+            return 0 #stop
     lift[lift_no]['floor'] = floor
     queue = lift[lift_no]['queue']
     if queue:
@@ -79,8 +86,10 @@ def update_lift_status(lift_no, floor):
             lift[lift_no]['status'] = 'MOVING'
             if queue[0] < floor:
                 return -1 #going down
-            else:
+            elif queue[0] > floor:
                 return 1 #going up
+            else:
+                return 0 #stop
     else:
         lift[lift_no]['status'] = None
         lift[lift_no]['going'] = None
