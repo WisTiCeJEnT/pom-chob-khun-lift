@@ -12,6 +12,28 @@ CORS(app)
 def root():
     return "Working"
 
+@app.route('/bof/')
+def bof():
+    page_list = [
+        ['user list', '/bof/user_list'],
+        ['user activity list', '/bof/user_activity_list'],
+        ['raw lift state', '/liftstatus'],
+        ['OLED emulator', '/bof/oled_terminal']
+    ]
+    return render_template('bof.html', page_list=page_list)
+"""
+@app.route('/bof/lift_status')
+def bof_lift_status():
+    lift = pckl.get_lift_status()
+    return render_template('lift_status.html', lift=lift)
+"""
+
+@app.route('/bof/oled_terminal')
+def bof_oled_terminal():
+    data = {}
+    data = pckl.scan.lift
+    return render_template('oled_terminal.html', data=data)
+
 @app.route('/bof/user_list')
 def bof_user_list():
     first = try_get(request.args.get('first'), 30)
@@ -21,9 +43,8 @@ def bof_user_list():
 
 @app.route('/bof/user_activity_list')
 def bof_user_activity_list():
-    first = try_get(request.args.get('first'), 30)
-    last = try_get(request.args.get('last'), 100)
-    user_list = pckl.db.get_user_activity_list(first, last)
+    show = try_get(request.args.get('show'), 30)
+    user_list = pckl.db.get_user_activity_list(show)
     return render_template('user_activity.html', user_list=user_list)
 
 @app.route('/adduser', methods = ['POST'])
@@ -129,19 +150,17 @@ def lift_status():
         print("Error:", e)
         traceback.print_exc()
         return jsonify({"status": "server error"})
-"""
-@app.route('/liftcall', methods = ['GET'])
+
+@app.route('/liftcall', methods = ['POST'])
 def lift_call():
     try:
-        data = {}
-        data['floor'] = int(request.args.get('floor'))
-        data['going'] = int(request.args.get('going'))
+        data = request.get_json()
         return jsonify(pckl.lift_call(data))
     except Exception as e: 
         print("Error:", e)
         traceback.print_exc()
         return jsonify({"status": "server error"})
-"""
+
 def try_get(inp, default):
     return inp if inp != None else default
 

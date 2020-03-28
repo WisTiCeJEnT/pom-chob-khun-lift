@@ -1,7 +1,7 @@
 lift = [None, None, None]
 lift[1] = {
     'queue': [],
-    'status': 'OPEN',
+    'status': None,
     'going': None,
     'floor': 1}
 lift[2] = {
@@ -9,6 +9,15 @@ lift[2] = {
     'status': None,
     'going': None,
     'floor': 1}
+
+floor_light = {
+    '4_DOWN': 0,
+    '3_UP': 0,
+    '3_DOWN': 0,
+    '2_UP': 0,
+    '2_DOWN': 0,
+    '1_UP': 0
+}
 
 def pop_lift(lift_no):
     if lift[lift_no]:
@@ -68,7 +77,6 @@ def add_queue(lift_no, dest): #Review again soon
     """
 
 def update_lift_status(lift_no, floor):
-    print("update_lift_status", lift_no)
     if floor == None:
         if lift[lift_no]['going'] == 'DOWN':
             return -1 #going down
@@ -76,19 +84,28 @@ def update_lift_status(lift_no, floor):
             return 1 #going up
         else:
             return 0 #stop
+    print("update_lift_status", lift_no)
     lift[lift_no]['floor'] = floor
+    # fast dev
+    floor_light[str(f"{lift[lift_no]['floor']}_UP")] = 0
+    floor_light[str(f"{lift[lift_no]['floor']}_DOWN")] = 0
     queue = lift[lift_no]['queue']
     if queue:
         if queue[0] == floor:
             pop_lift(lift_no)
             lift[lift_no]['status'] = 'OPEN'
+            lift[lift_no]['going'] = None
+            return 0
         else:
             lift[lift_no]['status'] = 'MOVING'
             if queue[0] < floor:
+                lift[lift_no]['going'] = 'DOWN'
                 return -1 #going down
             elif queue[0] > floor:
+                lift[lift_no]['going'] = 'UP'
                 return 1 #going up
             else:
+                lift[lift_no]['going'] = None
                 return 0 #stop
     else:
         lift[lift_no]['status'] = None

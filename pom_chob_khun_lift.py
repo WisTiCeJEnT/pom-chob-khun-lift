@@ -101,7 +101,8 @@ def get_lift_control(raw_data):
 def post_lift_control(raw_data):
     lift_no = raw_data['lift_no']
     status = None
-    scan.lift[lift_no]['status'] = 'CLOSE'
+    if scan.lift[lift_no]['status'] == 'WAITING':
+        scan.lift[lift_no]['status'] = 'CLOSE'
     return {
         'status': status if status != None else "ok",
     }
@@ -113,13 +114,19 @@ def lift_status(raw_data):
     if 'lift_1_position' in raw_data:
         lift_1_position = raw_data['lift_1_position']
     if 'lift_2_position' in raw_data:
-        lift_1_position = raw_data['lift_2_position']
+        lift_2_position = raw_data['lift_2_position']
     lift_1_move = scan.update_lift_status(lift_no=1, floor=lift_1_position)
     lift_2_move = scan.update_lift_status(lift_no=2, floor=lift_2_position)
     return {
         'lift_1_move': lift_1_move,
         'lift_2_move': lift_2_move,
-        'status': status if status != None else "ok",
+        '1_UP': scan.floor_light['1_UP'],
+        '2_DOWN': scan.floor_light['2_DOWN'],
+        '2_UP': scan.floor_light['2_UP'],
+        '3_DOWN': scan.floor_light['3_DOWN'],
+        '3_UP': scan.floor_light['3_UP'],
+        '4_DOWN': scan.floor_light['4_DOWN'],
+        'status': status if status != None else "ok"
     }
 
 def get_lift_status():
@@ -127,5 +134,17 @@ def get_lift_status():
     return {
         'lift_1': scan.lift[1],
         'lift_2': scan.lift[2],
+        'floor_light': scan.floor_light,
+        'status': status if status != None else "ok",
+    }
+
+def lift_call(raw_data):
+    status = None
+    scan.new_user(
+        floor=int(raw_data['floor']),
+        going=raw_data['going']
+    )
+    scan.floor_light[str(f"{raw_data['floor']}_{raw_data['going']}")] = 1
+    return {
         'status': status if status != None else "ok",
     }
