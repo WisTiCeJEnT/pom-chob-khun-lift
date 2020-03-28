@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <meta http-equiv="refresh" content="5" />
+
+  <title>PCKL Data</title>
+</head>
+
+<body>
+  </br>
+  <div class="mx-auto" style="width: 600px; height: 800px; margin-top: 50;">
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">Lift 1</h3>
+        <h6 class="card-subtitle mb-2 text-muted">Lift 1 status</h6>
+        <p class="card-text">Current level: {{lift['lift_1']['floor']}}</p>
+        <p class="card-text">Next stop: 
+          {% if lift['lift_1']['queue'] %}
+            {{ lift['lift_1']['queue'][0] }}
+          {% else %}
+            None
+          {% endif %}
+        </p>
+        <p class="card-text">
+          {% if lift['lift_1']['status'] == "MOVING" and lift['lift_1']['going'] == "UP" %}
+          <h5>Status: GOING UP</h5>
+          {% elif lift['lift_1']['status'] == "MOVING" and lift['lift_1']['going'] == "DOWN" %}
+          <h5>Status: GOING DOWN</h5>
+          {% elif lift['lift_1']['status'] == "OPEN" %}
+          <h5>Status: OPENING</h5>
+          {% elif lift['lift_1']['status'] == "CLOSE" %}
+          <h5>Status: CLOSING</h5>
+          {% else %}
+          <h5>Status: Stand by</h5>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+    </br>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title">Lift 2</h3>
+        <h6 class="card-subtitle mb-2 text-muted">Lift 2 status</h6>
+        <p class="card-text">Current level: {{lift['lift_2']['floor']}}</p>
+        <p class="card-text">Next stop: 
+          {% if lift['lift_2']['queue'] %}
+            {{ lift['lift_2']['queue'][0] }}
+          {% else %}
+            None
+          {% endif %}
+        </p>
+        <p class="card-text">
+          {% if lift['lift_2']['status'] == "MOVING" and lift['lift_2']['going'] == "UP" %}
+          <h5>Status: GOING UP</h5>
+          {% elif lift['lift_2']['status'] == "MOVING" and lift['lift_2']['going'] == "DOWN" %}
+          <h5>Status: GOING DOWN</h5>
+          {% elif lift['lift_2']['status'] == "OPEN" %}
+          <h5>Status: OPENING</h5>
+          {% elif lift['lift_2']['status'] == "CLOSE" %}
+          <h5>Status: CLOSING</h5>
+          {% else %}
+          <h5>Status: Stand by</h5>
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

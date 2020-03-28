@@ -16,17 +16,19 @@ def root():
 def bof():
     page_list = [
         ['user list', '/bof/user_list'],
-        ['user activity list', '/bof/user_activity_list'],
+        ['user activity', '/bof/user_activity_list'],
         ['raw lift state', '/liftstatus'],
-        ['OLED emulator', '/bof/oled_terminal']
+        ['OLED emulator', '/bof/oled_terminal'],
+        ['user data', '#'],
+        ['lift activity', '#'],
+        ['lift status', '/bof/lift_status']
     ]
     return render_template('bof.html', page_list=page_list)
-"""
+
 @app.route('/bof/lift_status')
 def bof_lift_status():
     lift = pckl.get_lift_status()
     return render_template('lift_status.html', lift=lift)
-"""
 
 @app.route('/bof/oled_terminal')
 def bof_oled_terminal():
