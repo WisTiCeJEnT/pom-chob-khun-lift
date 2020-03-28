@@ -24,10 +24,10 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 String cur_floor;
 String url = "http://pckl-api.herokuapp.com";
-const char* ssid = "Smooth_2G";
-const char* password =  "029772895";
+const char* ssid = "FCnoctisak47";
+const char* password =  "jui123456";
 char *UID[] = {"99 91 8C A3", "07 72 92 62", "62 82 95 1B", "C7 7E 31 4B"};
-String lift_number = "1";
+String lift_number = "2";
 unsigned long stop_time;
 void setup() {
   Serial.begin(9600);
@@ -51,12 +51,98 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.println("Connecting to WiFi..");
+    digitalWrite(led1_close, HIGH);
+    digitalWrite(led1_open, HIGH);
+    delay(100);
+    digitalWrite(led1_1, HIGH);
+    delay(150);
+    digitalWrite(led1_2, HIGH);
+    delay(200);
+    digitalWrite(led1_3, HIGH);
+    delay(250);
+    digitalWrite(led1_4, HIGH);
+    delay(300);
+
+    digitalWrite(led1_close, LOW);
+    digitalWrite(led1_open, LOW);
+    delay(100);
+    digitalWrite(led1_1, LOW);
+    delay(150);
+    digitalWrite(led1_2, LOW);
+    delay(200);
+    digitalWrite(led1_3, LOW);
+    delay(250);
+    digitalWrite(led1_4, LOW);
+    delay(300);
+
+    digitalWrite(led1_close, HIGH);
+    digitalWrite(led1_open, HIGH);
+    delay(100);
+    digitalWrite(led1_4, HIGH);
+    delay(150);
+    digitalWrite(led1_3, HIGH);
+    delay(200);
+    digitalWrite(led1_2, HIGH);
+    delay(250);
+    digitalWrite(led1_1, HIGH);
+    delay(300);
+
+    digitalWrite(led1_close, LOW);
+    digitalWrite(led1_open, LOW);
+    delay(100);
+    digitalWrite(led1_4, LOW);
+    delay(150);
+    digitalWrite(led1_3, LOW);
+    delay(200);
+    digitalWrite(led1_2, LOW);
+    delay(250);
+    digitalWrite(led1_1, LOW);
+    delay(300);
+
+    digitalWrite(led1_close, HIGH);
+    digitalWrite(led1_open, HIGH);
+    delay(100);
+    digitalWrite(led1_2, HIGH);
+    delay(150);
+    digitalWrite(led1_4, HIGH);
+    delay(200);
+    digitalWrite(led1_1, HIGH);
+    delay(250);
+    digitalWrite(led1_3, HIGH);
+    delay(300);
+
+    digitalWrite(led1_close, LOW);
+    digitalWrite(led1_open, LOW);
+    delay(100);
+    digitalWrite(led1_2, LOW);
+    delay(150);
+    digitalWrite(led1_4, LOW);
+    delay(200);
+    digitalWrite(led1_1, LOW);
+    delay(250);
+    digitalWrite(led1_3, LOW);
+    delay(300);
   }
   Serial.println("Connected to the WiFi network");
+  digitalWrite(led1_close, HIGH);
+    digitalWrite(led1_open, HIGH);
+    digitalWrite(led1_1, HIGH);
+    digitalWrite(led1_2, HIGH);
+    digitalWrite(led1_3, HIGH);
+    digitalWrite(led1_4, HIGH);
+    delay(400);
+    digitalWrite(led1_close, LOW);
+    digitalWrite(led1_open, LOW);
+    digitalWrite(led1_1, LOW);
+    digitalWrite(led1_2, LOW);
+    digitalWrite(led1_3, LOW);
+    digitalWrite(led1_4, LOW);
+    
 }
 
 void loop() {
   if (WiFi.status() == WL_CONNECTED) {
+    delay(1000);
 
     HTTPClient http_close_open;
     http_close_open.begin("http://pckl-api.herokuapp.com/liftcontrol?lift_no=" + lift_number);
@@ -69,13 +155,14 @@ void loop() {
       String oled = root_close_open["oled"];
       cur_floor = oled;
       Serial.println(close_open);
-      if (close_open == "1") {
+      if (close_open == "1" ) {//|| digitalRead(sw1_close)==LOW
         stop_time = millis() + 6000; //เปิดประตู
         Serial.println("closeopen OK = 1");
       }
       else if (close_open == "0") {
-        Serial.println("closeopen OK = 0");
-        if (millis() > stop_time) { // ส่งไปบอกว่าปิดประตูแล้ว
+        
+        if ((millis() > stop_time)||(digitalRead(sw1_open)==LOW)) { // ส่งไปบอกว่าปิดประตูแล้ว
+          Serial.println("closeopen OK = 0");
           String lift_is_closed = "{\"lift_no\":1}";
           http_close_open.addHeader("Content-Type", "application/json");
           int httpResponseCodeFloor = http_close_open.POST(lift_is_closed);
@@ -113,7 +200,7 @@ void loop() {
 
     // get post req.
     HTTPClient http;
-    
+
     http.begin(url + "/checkpermission?card_id=" + content.substring(1) + "&lift_no=" + lift_number + "&arrival=" + cur_floor);
     httpResponseCode = http.GET();
     if (httpResponseCode > 0) { // ถ้ามากกว่า 0 คือ connect ได้
@@ -173,7 +260,7 @@ void loop() {
       http_floor.addHeader("Content-Type", "application/json");
       String event_id = root["event_id"];
 
-      String liftactivity = "{\"event_id\":"+event_id+",\"target\":"+floor_to_go+",\"lift_no\":"+lift_number+"}";
+      String liftactivity = "{\"event_id\":" + event_id + ",\"target\":" + floor_to_go + ",\"lift_no\":" + lift_number + "}";
       int httpResponseCodeFloor = http_floor.PATCH(liftactivity);
       if (httpResponseCodeFloor > 0) {
         String response = http_floor.getString();
