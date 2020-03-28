@@ -20,10 +20,15 @@
 #define led4 23
 
 #define enable1Pin 27
-#define enable2Pin 26
+#define enable2Pin 27
 
 const char* ssid = "FCnoctisak47";
 const char* password = "jui123456";
+// HC-SR04
+const int trigPin = 25;
+const int echoPin = 26;
+long duration;
+int distance;
 
 void setup() {
   // put your setup code here, to run once:
@@ -46,6 +51,8 @@ void setup() {
   pinMode(led4, OUTPUT);
   pinMode(enable1Pin, OUTPUT);
   pinMode(enable2Pin, OUTPUT);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
   ledcSetup(0,30000,8);
   ledcAttachPin(enable1Pin,0);
   ledcAttachPin(enable2Pin,0);
@@ -71,6 +78,18 @@ void setup() {
     digitalWrite(led4,LOW);
   
 }
+
+int ObjDist(){
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);  
+  duration = pulseIn(echoPin, HIGH);
+  distance= duration*0.034/2;
+  Serial.println(distance);
+  return distance;
+} 
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -122,13 +141,20 @@ void loop() {
     }
     Serial.println("selected payload is null.");
 
-
-
-    // กดเลือกชั้นในลิฟท์
+    string c_floor;
+    if (ObjDist() > 50)
+      c_floor = "1";
+    else if (ObjDist() > 37)
+      c_floor = "2";
+    else if (ObjDist() > 22)
+      c_floor = "3";
+    else 
+      c_floor = "4";
+    // กดดเลือกชั้นในลิฟท์
     HTTPClient http;
     http.begin("http://pckl-api.herokuapp.com/liftstatus");
     http.addHeader("Content-Type", "application/json");
-    int httpResponse = http.POST("{\"raikordai\":2}");
+    int httpResponse = http.POST("{\"lift_position\": "+c_floor+"}");
     if (httpResponse > 0) {
       String response = http.getString();
       Serial.println(response);
