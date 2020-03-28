@@ -68,6 +68,9 @@
         {% elif data[1]['status'] == "CLOSE" %}
         <p>{{data[1]['floor']}}</p>
         <h2>{{"CLOSING"}}</h2>
+        {% elif data[2]['status'] == "WAITING" %}
+        <p>{{data[2]['floor']}}</p>
+        <h2>{{"WAITING"}}</h2>
         {% else %}
         <p>{{data[1]['floor']}}</p>
         <h2>Stand by</h2>
