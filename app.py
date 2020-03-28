@@ -19,7 +19,7 @@ def bof():
         ['user activity', '/bof/user_activity_list'],
         ['raw lift state', '/liftstatus'],
         ['OLED emulator', '/bof/oled_terminal'],
-        ['user data', '/bof/user_list/'],
+        ['user data', '/bof/user/39'],
         ['lift activity', '/bof/lift_activity_list'],
         ['lift status', '/bof/lift_status']
     ]
