@@ -233,6 +233,33 @@ def get_user_activity_list(show):
         return query_result
     return 'database error'
 
+def get_user_data(user_id):
+    if(connection):
+        cursor = connection.cursor()
+        query_string = f"""
+            SELECT user_data.user_id, 
+                user_data.f_name, 
+                user_data.l_name, 
+                user_data.card_id, 
+                user_data.email,
+                user_data.phone,
+                user_data.created_on,
+                user_data.last_stop,
+                user_data.last_active,
+                user_data.status,
+                user_permission.available
+            FROM user_data, user_permission
+            WHERE user_data.user_id = user_permission.user_id
+            AND user_data.user_id = %s
+            AND NOT user_data.is_deleted;
+            """
+        cursor.execute(query_string, (user_id, ))
+        query_result = list(cursor.fetchall()[0])
+        query_result[-1] = ([0,0,0,0]+[int(floor) for floor in bin(query_result[-1])[2:]])[-4:]
+        cursor.close()
+        return query_result
+    return 'database error'
+
 """
 finally:
     #closing database connection.

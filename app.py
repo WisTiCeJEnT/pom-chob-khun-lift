@@ -19,11 +19,16 @@ def bof():
         ['user activity', '/bof/user_activity_list'],
         ['raw lift state', '/liftstatus'],
         ['OLED emulator', '/bof/oled_terminal'],
-        ['user data', '#'],
+        ['user data', 'bof/user_list/'],
         ['lift activity', '#'],
         ['lift status', '/bof/lift_status']
     ]
     return render_template('bof.html', page_list=page_list)
+
+@app.route('/bof/user/<user_id>')
+def bof_user(user_id):
+    data = pckl.db.get_user_data(user_id)
+    return render_template('user_data.html', data=data)
 
 @app.route('/bof/lift_status')
 def bof_lift_status():
