@@ -260,6 +260,21 @@ def get_user_data(user_id):
         return query_result
     return 'database error'
 
+def lift_activity_list(first, last):
+    if(connection):
+        cursor = connection.cursor()
+        query_string = f"""
+            SELECT id, lift_no, floor, meaning, created_on
+            FROM lift_activity, event_meaning
+            WHERE lift_activity.event_no = event_meaning.event_no
+            ORDER BY id DESC;
+            """
+        cursor.execute(query_string, (first, last, ))
+        query_result = cursor.fetchall()
+        cursor.close()
+        return query_result
+    return 'database error'
+
 """
 finally:
     #closing database connection.
