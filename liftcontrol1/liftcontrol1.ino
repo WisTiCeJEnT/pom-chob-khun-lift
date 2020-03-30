@@ -155,7 +155,7 @@ void loop() {
       String oled = root_close_open["oled"];
       cur_floor = oled;
       Serial.println(close_open);
-      if (close_open == "1" ) {//|| digitalRead(sw1_close)==LOW
+      if (close_open == "1" || digitalRead(sw1_close)==LOW) {
         stop_time = millis() + 6000; //เปิดประตู
         Serial.println("closeopen OK = 1");
       }
