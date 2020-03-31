@@ -43,7 +43,6 @@ def bof_user(user_id):
     try:
         data = pckl.db.get_user_data(user_id)
         user_activity = pckl.db.get_user_activity(user_id)
-        print(user_activity)
         return render_template('user_data.html', data=data, user_activity=user_activity)
     except Exception as e: 
         print("Error:", e)
