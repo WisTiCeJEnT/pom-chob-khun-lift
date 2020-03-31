@@ -19,62 +19,116 @@
 
 <body>
   </br>
-  <div class="mx-auto" style="width: 600px; height: 800px; margin-top: 50;">
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h3 class="card-title">Lift 1</h3>
-        <h6 class="card-subtitle mb-2 text-muted">Lift 1 status</h6>
-        <p class="card-text">Current level: {{lift['lift_1']['floor']}}</p>
-        <p class="card-text">Next stop: 
-          {% if lift['lift_1']['queue'] %}
-            {{ lift['lift_1']['queue'][0] }}
-          {% else %}
-            None
-          {% endif %}
-        </p>
-        <p class="card-text">
-          {% if lift['lift_1']['status'] == "MOVING" and lift['lift_1']['going'] == "UP" %}
-          <h5>Status: GOING UP</h5>
-          {% elif lift['lift_1']['status'] == "MOVING" and lift['lift_1']['going'] == "DOWN" %}
-          <h5>Status: GOING DOWN</h5>
-          {% elif lift['lift_1']['status'] == "OPEN" %}
-          <h5>Status: OPENING</h5>
-          {% elif lift['lift_1']['status'] == "CLOSE" %}
-          <h5>Status: CLOSING</h5>
-          {% else %}
-          <h5>Status: Stand by</h5>
-          {% endif %}
-        </p>
+  <div class="mx-auto container-fluid" style="margin-top: 30; margin-bottom: 50;">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Lift 1</h3>
+            <h6 class="card-subtitle mb-2 text-muted">Lift 1 status</h6>
+            <p class="card-text">Current level: {{lift['lift_1']['floor']}}</p>
+            <p class="card-text">Next stop:
+              {% if lift['lift_1']['queue'] %}
+              {{ lift['lift_1']['queue'][0] }}
+              {% else %}
+              None
+              {% endif %}
+            </p>
+            <p class="card-text">
+              {% if lift['lift_1']['status'] == "MOVING" and lift['lift_1']['going'] == "UP" %}
+              <h5>Status: GOING UP</h5>
+              {% elif lift['lift_1']['status'] == "MOVING" and lift['lift_1']['going'] == "DOWN" %}
+              <h5>Status: GOING DOWN</h5>
+              {% elif lift['lift_1']['status'] == "OPEN" %}
+              <h5>Status: OPENING</h5>
+              {% elif lift['lift_1']['status'] == "CLOSE" %}
+              <h5>Status: CLOSING</h5>
+              {% else %}
+              <h5>Status: Stand by</h5>
+              {% endif %}
+            </p>
+          </div>
+          <div class="card-footer">
+            <h5>Last activity</h5>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Lift event id</th>
+                  <th scope="col">Floor</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Date/Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ev in lift_activity_1 %}
+                <tr>
+                  <th scope="row">{{ev[0]}}</th>
+                  <td>{{ev[1]}}</td>
+                  <td>{{ev[2]}}</td>
+                  <td>{{ev[3]}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Lift 2</h3>
+            <h6 class="card-subtitle mb-2 text-muted">Lift 2 status</h6>
+            <p class="card-text">Current level: {{lift['lift_2']['floor']}}</p>
+            <p class="card-text">Next stop:
+              {% if lift['lift_2']['queue'] %}
+              {{ lift['lift_2']['queue'][0] }}
+              {% else %}
+              None
+              {% endif %}
+            </p>
+            <p class="card-text">
+              {% if lift['lift_2']['status'] == "MOVING" and lift['lift_2']['going'] == "UP" %}
+              <h5>Status: GOING UP</h5>
+              {% elif lift['lift_2']['status'] == "MOVING" and lift['lift_2']['going'] == "DOWN" %}
+              <h5>Status: GOING DOWN</h5>
+              {% elif lift['lift_2']['status'] == "OPEN" %}
+              <h5>Status: OPENING</h5>
+              {% elif lift['lift_2']['status'] == "CLOSE" %}
+              <h5>Status: CLOSING</h5>
+              {% else %}
+              <h5>Status: Stand by</h5>
+              {% endif %}
+            </p>
+          </div>
+          <div class="card-footer">
+            <h5>Last activity</h5>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Lift event id</th>
+                  <th scope="col">Floor</th>
+                  <th scope="col">Event</th>
+                  <th scope="col">Date/Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ev in lift_activity_2 %}
+                <tr>
+                  <th scope="row">{{ev[0]}}</th>
+                  <td>{{ev[1]}}</td>
+                  <td>{{ev[2]}}</td>
+                  <td>{{ev[3]}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-    </br>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h3 class="card-title">Lift 2</h3>
-        <h6 class="card-subtitle mb-2 text-muted">Lift 2 status</h6>
-        <p class="card-text">Current level: {{lift['lift_2']['floor']}}</p>
-        <p class="card-text">Next stop: 
-          {% if lift['lift_2']['queue'] %}
-            {{ lift['lift_2']['queue'][0] }}
-          {% else %}
-            None
-          {% endif %}
-        </p>
-        <p class="card-text">
-          {% if lift['lift_2']['status'] == "MOVING" and lift['lift_2']['going'] == "UP" %}
-          <h5>Status: GOING UP</h5>
-          {% elif lift['lift_2']['status'] == "MOVING" and lift['lift_2']['going'] == "DOWN" %}
-          <h5>Status: GOING DOWN</h5>
-          {% elif lift['lift_2']['status'] == "OPEN" %}
-          <h5>Status: OPENING</h5>
-          {% elif lift['lift_2']['status'] == "CLOSE" %}
-          <h5>Status: CLOSING</h5>
-          {% else %}
-          <h5>Status: Stand by</h5>
-          {% endif %}
-        </p>
-      </div>
-    </div>
+  </div>
+
+  </div>
   </div>
 
 

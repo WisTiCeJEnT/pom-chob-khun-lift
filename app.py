@@ -41,7 +41,12 @@ def bof_user(user_id):
 @app.route('/bof/lift_status')
 def bof_lift_status():
     lift = pckl.get_lift_status()
-    return render_template('lift_status.html', lift=lift)
+    lift_activity_1 = pckl.db.lift_activity_detail(1)
+    lift_activity_2 = pckl.db.lift_activity_detail(2)
+    return render_template('lift_status.html', 
+        lift=lift,
+        lift_activity_1=lift_activity_1,
+        lift_activity_2=lift_activity_2)
 
 @app.route('/bof/oled_terminal')
 def bof_oled_terminal():

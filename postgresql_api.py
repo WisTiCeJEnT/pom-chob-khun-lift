@@ -275,6 +275,23 @@ def lift_activity_list(first, last):
         return query_result
     return 'database error'
 
+def lift_activity_detail(lift_no):
+    if(connection):
+        cursor = connection.cursor()
+        query_string = f"""
+            SELECT id, floor, meaning, created_on
+            FROM lift_activity, event_meaning
+            WHERE lift_activity.event_no = event_meaning.event_no
+            AND lift_no = %s
+            ORDER BY id DESC
+            limit 5;
+            """
+        cursor.execute(query_string, (lift_no, ))
+        query_result = cursor.fetchall()
+        cursor.close()
+        return query_result
+    return 'database error'
+
 def get_user_activity(user_id):
     if(connection):
         cursor = connection.cursor()
