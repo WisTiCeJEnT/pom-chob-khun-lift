@@ -12,6 +12,12 @@
     <meta http-equiv="refresh" content="60" />
 
     <title>PCKL Data</title>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/bof/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">User Activity</li>
+      </ol>
+    </nav>
   </head>
   <body>
     <h2>User activity list</h2>
@@ -30,7 +36,7 @@
       <tbody>
         {% for user in user_list %}
         <tr>
-          <th scope="row">{{user[0]}}</th>
+          <th scope="row"><a href="/bof/user/{{user[0]}}">{{user[0]}}</a></th>
           <td>{{user[1]}}</td>
           <td>{{user[2]}}</td>
           <td>{{user[3]}}</td>

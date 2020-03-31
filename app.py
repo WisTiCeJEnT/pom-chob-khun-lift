@@ -15,13 +15,12 @@ def root():
 @app.route('/bof/')
 def bof():
     page_list = [
-        ['user list', '/bof/user_list'],
-        ['user activity', '/bof/user_activity_list'],
-        ['raw lift state', '/liftstatus'],
-        ['OLED emulator', '/bof/oled_terminal'],
-        ['user data', '/bof/user/39'],
-        ['lift activity', '/bof/lift_activity_list'],
-        ['lift status', '/bof/lift_status']
+        ['User List', '/bof/user_list'],
+        ['User Activity', '/bof/user_activity_list'],
+        ['User Detail (ex. 39)', '/bof/user/39'],
+        ['Lift Activity', '/bof/lift_activity_list'],
+        ['Lift Status', '/bof/lift_status'],
+        ['OLED emulator', '/bof/oled_terminal']
     ]
     return render_template('bof.html', page_list=page_list)
 
