@@ -35,7 +35,9 @@ def bof_lift_activity_list():
 @app.route('/bof/user/<user_id>')
 def bof_user(user_id):
     data = pckl.db.get_user_data(user_id)
-    return render_template('user_data.html', data=data)
+    user_activity = pckl.db.get_user_activity(user_id)
+    print(user_activity)
+    return render_template('user_data.html', data=data, user_activity=user_activity)
 
 @app.route('/bof/lift_status')
 def bof_lift_status():
@@ -179,4 +181,4 @@ def try_get(inp, default):
     return inp if inp != None else default
 
 if __name__ == "__main__":
-    app.run(debug = False, host="0.0.0.0", port=5000)
+    app.run(debug = True, host="0.0.0.0", port=5000)

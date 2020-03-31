@@ -8,39 +8,66 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
   <title>PCKL Data</title>
+  
 </head>
 
 <body>
   </br>
-  <div class="mx-auto" style="width: 600px; height: 800px; margin-top: 50;">
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h3 class="card-title">User {{data[0]}}</h3>
-        <h6 class="card-subtitle mb-2 text-muted">{{data[1]}} {{data[2]}}</h6>
-        <p class="card-text">Card ID: {{data[3]}}</p>
-        <p class="card-text">Email: {{data[4]}}</p>
-        <p class="card-text">Phone: {{data[5]}}</p>
-        <p class="card-text">Permission: {{data[10]}}</p>
-        <p class="card-text">Last floor: {{data[7]}}</p>
-        <p class="card-text">Last active date: {{data[8]}}</p>
-        <p class="card-text">Created on: {{data[6]}}</p>
-        <p class="card-text">Note: {{data[9]}}</p>
+  <div class="mx-auto container-fluid" style="margin-top: 50;">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">User {{data[0]}}</h3>
+            <h6 class="card-subtitle mb-2 text-muted">{{data[1]}} {{data[2]}}</h6>
+            <p class="card-text">Card ID: {{data[3]}}</p>
+            <p class="card-text">Email: {{data[4]}}</p>
+            <p class="card-text">Phone: {{data[5]}}</p>
+            <p class="card-text">Permission: {{data[10]}}</p>
+            <p class="card-text">Last floor: {{data[7]}}</p>
+            <p class="card-text">Last active date: {{data[8]}}</p>
+            <p class="card-text">Created on: {{data[6]}}</p>
+            <p class="card-text">Note: {{data[9]}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+            <h3>Last activity</h3>
+            <table class="table table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Lift no</th>
+                  <th scope="col">Arrival</th>
+                  <th scope="col">Departure</th>
+                  <th scope="col">Date/Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ev in user_activity %}
+                <tr>
+                  <th scope="row">{{ev[0]}}</th>
+                  <td>{{ev[1]}}</td>
+                  <td>{{ev[2]}}</td>
+                  <td>{{ev[3]}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
       </div>
     </div>
-  </div>
 
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
 </body>
 
 </html>

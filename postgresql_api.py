@@ -275,6 +275,25 @@ def lift_activity_list(first, last):
         return query_result
     return 'database error'
 
+def get_user_activity(user_id):
+    if(connection):
+        cursor = connection.cursor()
+        query_string = f"""
+            SELECT user_activity.lift_no, 
+                user_activity.arrival, 
+                user_activity.departure, 
+                user_activity.created_on
+            FROM user_activity
+            WHERE user_id = %s
+            ORDER BY user_activity.id DESC
+            limit 5;
+            """
+        cursor.execute(query_string, (user_id, ))
+        query_result = cursor.fetchall()
+        cursor.close()
+        return query_result
+    return 'database error'
+
 """
 finally:
     #closing database connection.
