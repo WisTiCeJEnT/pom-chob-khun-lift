@@ -12,6 +12,8 @@ CORS(app)
 def root():
     return "Working"
 
+################## BOF Zone ##################
+
 @app.route('/bof/')
 def bof():
     page_list = [
@@ -26,46 +28,77 @@ def bof():
 
 @app.route('/bof/lift_activity_list')
 def bof_lift_activity_list():
-    first = try_get(request.args.get('first'), 30)
-    last = try_get(request.args.get('last'), 100)
-    lift_activity_list = pckl.db.lift_activity_list(first, last)
-    return render_template('lift_activity_list.html', lift_activity_list=lift_activity_list)
+    try:
+        first = try_get(request.args.get('first'), 30)
+        last = try_get(request.args.get('last'), 100)
+        lift_activity_list = pckl.db.lift_activity_list(first, last)
+        return render_template('lift_activity_list.html', lift_activity_list=lift_activity_list)
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return render_template('5xx.html')
 
 @app.route('/bof/user/<user_id>')
 def bof_user(user_id):
-    data = pckl.db.get_user_data(user_id)
-    user_activity = pckl.db.get_user_activity(user_id)
-    print(user_activity)
-    return render_template('user_data.html', data=data, user_activity=user_activity)
+    try:
+        data = pckl.db.get_user_data(user_id)
+        user_activity = pckl.db.get_user_activity(user_id)
+        print(user_activity)
+        return render_template('user_data.html', data=data, user_activity=user_activity)
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return render_template('5xx.html')
 
 @app.route('/bof/lift_status')
 def bof_lift_status():
-    lift = pckl.get_lift_status()
-    lift_activity_1 = pckl.db.lift_activity_detail(1)
-    lift_activity_2 = pckl.db.lift_activity_detail(2)
-    return render_template('lift_status.html', 
-        lift=lift,
-        lift_activity_1=lift_activity_1,
-        lift_activity_2=lift_activity_2)
+    try:
+        lift = pckl.get_lift_status()
+        lift_activity_1 = pckl.db.lift_activity_detail(1)
+        lift_activity_2 = pckl.db.lift_activity_detail(2)
+        return render_template('lift_status.html', 
+            lift=lift,
+            lift_activity_1=lift_activity_1,
+            lift_activity_2=lift_activity_2)
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return render_template('5xx.html')
 
 @app.route('/bof/oled_terminal')
 def bof_oled_terminal():
-    data = {}
-    data = pckl.scan.lift
-    return render_template('oled_terminal.html', data=data)
+    try:
+        data = pckl.scan.lift
+        return render_template('oled_terminal.html', data=data)
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return render_template('5xx.html')
 
 @app.route('/bof/user_list')
 def bof_user_list():
-    first = try_get(request.args.get('first'), 30)
-    last = try_get(request.args.get('last'), 100)
-    user_list = pckl.db.get_user_list(first, last)
-    return render_template('user_list.html', user_list=user_list)
+    try:
+        first = try_get(request.args.get('first'), 30)
+        last = try_get(request.args.get('last'), 100)
+        user_list = pckl.db.get_user_list(first, last)
+        return render_template('user_list.html', user_list=user_list)
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return render_template('5xx.html')
 
 @app.route('/bof/user_activity_list')
 def bof_user_activity_list():
-    show = try_get(request.args.get('show'), 30)
-    user_list = pckl.db.get_user_activity_list(show)
-    return render_template('user_activity.html', user_list=user_list)
+    try:
+        show = try_get(request.args.get('show'), 30)
+        user_list = pckl.db.get_user_activity_list(show)
+        return render_template('user_activity.html', user_list=user_list)
+    except Exception as e: 
+        print("Error:", e)
+        traceback.print_exc()
+        return render_template('5xx.html')
+
+################## APIs Zone ##################
 
 @app.route('/adduser', methods = ['POST'])
 def add_user():
